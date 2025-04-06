@@ -11,9 +11,9 @@ contract Assignment9Test is Test {
         assignment = new Assignment9();
     }
 
-    function testFactoryPattern() public {
-        assignment.createContract();
-        address deployed = assignment.deployedContracts(0);
+    function testFactoryPattern(uint256 _initialValue) public {
+        assignment.createContract(_initialValue);
+        address deployed = address(assignment.deployedContracts(0));
 
         SimpleContract simple = SimpleContract(deployed);
         simple.setValue(42);
@@ -22,9 +22,9 @@ contract Assignment9Test is Test {
         assertEq(value, 42, "Value should be 42");
     }
 
-    function testOnlyOwnerCanCreateContract() public {
+    function testOnlyOwnerCanCreateContract(uint256 _initialValue) public {
         vm.prank(address(0x1234));
         vm.expectRevert();
-        assignment.createContract();
+        assignment.createContract(_initialValue);
     }
 }
